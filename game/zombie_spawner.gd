@@ -17,8 +17,8 @@ func roll_position(z):
 
 func make_zombie():
 	var pos = player.global_position
-	var x = roll_position(window.x*1.2)
-	var y = roll_position(window.y*1.2)
+	var x = roll_position(window.x*1.2) - (window.x * 0.1)
+	var y = roll_position(window.y*1.2) - (window.y * 0.1)
 	var diff = pos - Vector2(x,y)
 	var m = sqrt(diff.x*diff.x + diff.y*diff.y)
 	

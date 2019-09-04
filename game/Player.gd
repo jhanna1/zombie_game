@@ -3,11 +3,11 @@ extends KinematicBody2D
 const MOVE_SPEED = 300
 
 var Bullet = preload("res://Bullet.tscn")
-var barr = load("res://Barr.tscn")
+var barr = preload("res://Barr.tscn")
 
 var ammo = 3
 
-var barrc = 50
+var barrc = 0
 
 onready var raycast = $RayCast2D
 
@@ -29,17 +29,14 @@ func _physics_process(delta):
 		move_vec.x -= 1
 	if Input.is_action_pressed("move_right"):
 		move_vec.x += 1
-	if Input.is_action_pressed("build"):
-		if barrc > 0:
-			var b = barr.instance()
-			b.position = get_global_mouse_position()
-			add_child(b)
+		
 	move_vec = move_vec.normalized()
 	move_and_collide(move_vec * MOVE_SPEED * delta)
-
 	
-	#if(Input.is_key_pressed(KEY_SHIFT)):
-	#	MOVE_SPEED = 4504
+	if Input.is_action_just_pressed("build"):
+		if barrc > 0:
+			if magnitude(look_vec) < 300:
+				get_tree().get_root().get_node("World/barr_spawner").spawn(get_global_mouse_position())
 	
 	if Input.is_action_just_pressed("shoot"):
 		if ammo > 0 :
@@ -48,6 +45,9 @@ func _physics_process(delta):
 			var b = Bullet.instance()
 			b.start(look_vec)
 			add_child(b)
+
+func magnitude(input_vec):
+	return(sqrt(input_vec.x*input_vec.x + input_vec.y*input_vec.y))
 
 func add_ammo(amount):
 	ammo += amount

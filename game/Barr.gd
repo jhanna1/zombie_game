@@ -1,6 +1,6 @@
-extends Area2D
+extends RigidBody2D
 
-var timer = 10000
+var timer = 1200
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -8,11 +8,8 @@ func _ready():
 	pass # Replace with function body.
 
 func _process(delta):
-	
 	if timer == 0:
 		queue_free()
+	if timer < 200:
+		$Sprite.modulate = Color("#CD5C5C")
 	timer -= 1
-
-
-func _on_Barr_body_entered(body):
-	print(body.name)
